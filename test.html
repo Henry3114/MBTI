@@ -9,7 +9,12 @@
 <body>
     <div class="container">
         <h1 id="test-title">MBTI 测试问卷</h1>
-        <p class="progress" id="progress-display">已完成 0 / 40 题</p>
+        <div class="progress" id="progress-display">
+            已完成 <strong>0</strong> / 40 题
+            <div class="progress-bar-outer">
+                <div class="progress-bar-inner" style="width:0%;"></div>
+            </div>
+        </div>
 
         <form id="mbti-form">
             <div id="question-area">

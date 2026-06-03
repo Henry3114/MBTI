@@ -88,7 +88,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // 更新进度
     function updateProgressDisplay() {
         const answeredCount = Object.keys(userAnswers).length;
-        progressDisplay.textContent = '已完成 ' + answeredCount + ' / ' + totalQuestions + ' 题';
+        var pct = Math.round((answeredCount / totalQuestions) * 100);
+        progressDisplay.innerHTML = ''
+            + '已完成 <strong>' + answeredCount + '</strong> / ' + totalQuestions + ' 题'
+            + '<div class="progress-bar-outer">'
+            + '  <div class="progress-bar-inner" style="width:' + pct + '%;"></div>'
+            + '</div>';
     }
 
     // 上一题按钮
@@ -131,8 +136,13 @@ document.addEventListener('DOMContentLoaded', function() {
         mbtiType += scores["T"] >= scores["F"] ? "T" : "F";
         mbtiType += scores["J"] >= scores["P"] ? "J" : "P";
 
-        // 跳转到结果页，通过 URL 参数传递类型
-        window.location.href = 'result.html?type=' + mbtiType;
+        // 跳转到结果页，通过 URL 参数传递类型 + 各维度分数
+        var url = 'result.html?type=' + mbtiType
+            + '&E=' + scores['E'] + '&I=' + scores['I']
+            + '&S=' + scores['S'] + '&N=' + scores['N']
+            + '&T=' + scores['T'] + '&F=' + scores['F']
+            + '&J=' + scores['J'] + '&P=' + scores['P'];
+        window.location.href = url;
     });
 
     // 初始化
