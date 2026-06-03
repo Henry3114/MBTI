@@ -714,14 +714,17 @@ h4 { color: #555; font-size: 1.05em; font-weight: 600; margin-bottom: 8px; }
    分享卡片（截图目标）
    ========================================== */
 .share-card {
-    display: none; /* 默认隐藏，截图时显示 */
-    margin: 24px auto 0;
-    max-width: 420px;
-    width: 100%;
+    /* 使用屏幕外定位而非 display:none，确保 html2canvas 能渲染 */
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    z-index: -1;
+    width: 420px;
+    margin: 0;
 }
 
 .share-card-inner {
-    background: linear-gradient(160deg, #fafbff 0%, #f0f2ff 100%);
+    background: #fafbff;
     border: 3px solid #667eea;
     border-radius: 24px;
     padding: 36px 28px 24px;
@@ -731,29 +734,24 @@ h4 { color: #555; font-size: 1.05em; font-weight: 600; margin-bottom: 8px; }
     overflow: hidden;
 }
 
-/* 装饰性背景圆 */
-.share-card-inner::before {
-    content: '';
+/* 装饰性背景圆 — 用真实 div 替代伪元素，兼容 html2canvas */
+.share-deco-top {
     position: absolute;
-    top: -60px;
-    right: -60px;
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle, rgba(102,126,234,0.08) 0%, transparent 70%);
+    top: -60px; right: -60px;
+    width: 180px; height: 180px;
+    background: #e8eaff;
     border-radius: 50%;
     pointer-events: none;
+    z-index: 0;
 }
-
-.share-card-inner::after {
-    content: '';
+.share-deco-bottom {
     position: absolute;
-    bottom: -40px;
-    left: -40px;
-    width: 140px;
-    height: 140px;
-    background: radial-gradient(circle, rgba(118,75,162,0.06) 0%, transparent 70%);
+    bottom: -40px; left: -40px;
+    width: 140px; height: 140px;
+    background: #ece5f5;
     border-radius: 50%;
     pointer-events: none;
+    z-index: 0;
 }
 
 .share-header { margin-bottom: 20px; position: relative; z-index: 1; }

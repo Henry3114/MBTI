@@ -174,19 +174,23 @@ function saveAsImage() {
     var btn = document.getElementById('btn-save-img');
     var card = document.getElementById('share-card');
 
-    // 显示卡片以便截图
-    card.style.display = 'block';
+    // 检查 html2canvas 是否加载
+    if (typeof html2canvas === 'undefined') {
+        alert('截图库加载失败，请刷新页面后重试');
+        return;
+    }
+
     btn.textContent = '⏳ 生成中...';
     btn.disabled = true;
 
+    // 卡片使用 position:fixed; left:-9999px（屏幕外但已渲染），html2canvas 可直接捕获
     html2canvas(card, {
         scale: 2,
         useCORS: true,
-        backgroundColor: null,
+        allowTaint: true,
+        backgroundColor: '#fafbff',
         logging: false
     }).then(function(canvas) {
-        // 隐藏回卡片
-        card.style.display = 'none';
         btn.textContent = '📸 保存为图片';
         btn.disabled = false;
 
@@ -196,10 +200,9 @@ function saveAsImage() {
         link.href = canvas.toDataURL('image/png');
         link.click();
     }).catch(function(err) {
-        card.style.display = 'none';
         btn.textContent = '📸 保存为图片';
         btn.disabled = false;
-        alert('图片生成失败，请重试');
         console.error('html2canvas error:', err);
+        alert('图片生成失败，请重试。\n错误: ' + (err.message || '未知错误'));
     });
 }

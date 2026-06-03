@@ -21,16 +21,18 @@
             <p style="text-align:center; color:#888; padding:40px;">正在计算你的性格类型...</p>
         </div>
 
-        <!-- 分享卡片（截图目标区域） -->
+        <!-- 分享卡片（截图目标区域，屏幕外渲染） -->
         <div id="share-card" class="share-card">
             <div class="share-card-inner">
+                <div class="share-deco-top"></div>
+                <div class="share-deco-bottom"></div>
                 <div class="share-header">
                     <div class="share-badge" id="share-badge">--</div>
                     <div class="share-name" id="share-name">--</div>
                 </div>
                 <div class="share-dims" id="share-dims"></div>
                 <div class="share-tagline" id="share-tagline"></div>
-                <div class="share-watermark">MBTI 性格测试 · henry3114.github.io/MBTI</div>
+                <div class="share-watermark">MBTI 性格测试</div>
             </div>
         </div>
 
@@ -41,7 +43,7 @@
         </div>
     </div>
 
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="data.js"></script>
     <script src="result.js"></script>
 </body>
