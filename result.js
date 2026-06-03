@@ -298,6 +298,7 @@ function saveAsImage() {
     bgGrad.addColorStop(1, '#fafbff');
     ctx.fillStyle = bgGrad;
     roundFill(ctx, 0, 0, W, H, 48);
+    ctx.fill();
 
     // 装饰圆
     ctx.save();
