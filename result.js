@@ -291,6 +291,10 @@ function saveAsImage() {
     var ctx = canvas.getContext('2d');
     var FONT = '"PingFang SC","Microsoft YaHei","SimHei",sans-serif';
 
+    // 确保 Canvas 无透明像素（防止某些浏览器/图片查看器渲染为黑色）
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, W, H);
+
     // 背景渐变
     var bgGrad = ctx.createLinearGradient(0, 0, 0, H);
     bgGrad.addColorStop(0, '#fafbff');
