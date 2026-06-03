@@ -129,12 +129,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // 组合 MBTI 类型
+        // 组合 MBTI 类型（使用严格 > 避免平分时永远偏向 E/S/T/J）
         var mbtiType = '';
-        mbtiType += scores["E"] >= scores["I"] ? "E" : "I";
-        mbtiType += scores["S"] >= scores["N"] ? "S" : "N";
-        mbtiType += scores["T"] >= scores["F"] ? "T" : "F";
-        mbtiType += scores["J"] >= scores["P"] ? "J" : "P";
+        mbtiType += scores["E"] > scores["I"] ? "E" : "I";
+        mbtiType += scores["S"] > scores["N"] ? "S" : "N";
+        mbtiType += scores["T"] > scores["F"] ? "T" : "F";
+        mbtiType += scores["J"] > scores["P"] ? "J" : "P";
 
         // 跳转到结果页，通过 URL 参数传递类型 + 各维度分数
         var url = 'result.html?type=' + mbtiType

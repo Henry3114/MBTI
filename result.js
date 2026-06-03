@@ -154,30 +154,37 @@ document.addEventListener('DOMContentLoaded', function() {
 function saveAsImage() {
     var btn = document.getElementById('btn-save-img');
 
-    // 从 URL 读取数据
-    var params = new URLSearchParams(window.location.search);
-    var mbtiType = params.get('type');
-    if (!mbtiType || !mbtiDescriptions[mbtiType]) { alert('未找到结果数据'); return; }
-    var desc = mbtiDescriptions[mbtiType];
-
-    var scores = {
-        E: parseInt(params.get('E')) || 0, I: parseInt(params.get('I')) || 0,
-        S: parseInt(params.get('S')) || 0, N: parseInt(params.get('N')) || 0,
-        T: parseInt(params.get('T')) || 0, F: parseInt(params.get('F')) || 0,
-        J: parseInt(params.get('J')) || 0, P: parseInt(params.get('P')) || 0
-    };
-    function pct(a, b) { var t = a + b; return t === 0 ? 50 : Math.round((a / t) * 100); }
-    var dims = [
-        { left: 'E', right: 'I', p: pct(scores.E, scores.I) },
-        { left: 'S', right: 'N', p: pct(scores.S, scores.N) },
-        { left: 'T', right: 'F', p: pct(scores.T, scores.F) },
-        { left: 'J', right: 'P', p: pct(scores.J, scores.P) }
-    ];
-
     btn.textContent = '⏳ 生成中...';
     btn.disabled = true;
 
-    // ============ 布局常量（2x 高清） ============
+    try {
+        // -- 数据校验 --
+        if (typeof mbtiDescriptions === 'undefined') {
+            throw new Error('题库数据未加载，请刷新页面后重试');
+        }
+
+        var params = new URLSearchParams(window.location.search);
+        var mbtiType = params.get('type');
+        if (!mbtiType || !mbtiDescriptions[mbtiType]) {
+            throw new Error('未找到测试结果数据，请重新测试');
+        }
+        var desc = mbtiDescriptions[mbtiType];
+
+        var scores = {
+            E: parseInt(params.get('E')) || 0, I: parseInt(params.get('I')) || 0,
+            S: parseInt(params.get('S')) || 0, N: parseInt(params.get('N')) || 0,
+            T: parseInt(params.get('T')) || 0, F: parseInt(params.get('F')) || 0,
+            J: parseInt(params.get('J')) || 0, P: parseInt(params.get('P')) || 0
+        };
+        function pct(a, b) { var t = a + b; return t === 0 ? 50 : Math.round((a / t) * 100); }
+        var dims = [
+            { left: 'E', right: 'I', p: pct(scores.E, scores.I) },
+            { left: 'S', right: 'N', p: pct(scores.S, scores.N) },
+            { left: 'T', right: 'F', p: pct(scores.T, scores.F) },
+            { left: 'J', right: 'P', p: pct(scores.J, scores.P) }
+        ];
+
+        // ============ 布局常量（2x 高清） ============
     var W = 840;
     var padX = 56;
     var padTop = 60;
@@ -496,6 +503,13 @@ function saveAsImage() {
 
     btn.textContent = '📸 保存为图片';
     btn.disabled = false;
+
+    } catch (err) {
+        console.error('saveAsImage error:', err);
+        btn.textContent = '📸 保存为图片';
+        btn.disabled = false;
+        alert('图片生成失败，请重试。\n\n错误信息:\n' + (err.message || '未知错误'));
+    }
 }
 
 // 辅助：圆角矩形（填充路径）
