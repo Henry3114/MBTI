@@ -2,60 +2,116 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MBTI 性格测试 - 在线测评 | 探索你的性格密码</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MBTI 性格测试 | 探索你的性格密码</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="welcome-hero">
-            <div class="welcome-icon">🧠</div>
-            <h1>探索你的性格密码</h1>
-            <p class="welcome-subtitle">
-                MBTI（Myers-Briggs Type Indicator）是全球最广泛使用的性格分类工具之一。<br>
-                这不是评判好坏，而是帮你发现自己的天赋与潜能。
-            </p>
+    <!-- ===== 卡密验证门禁 ===== -->
+    <div class="gate-overlay" id="gate-overlay">
+        <div class="gate-box">
+            <div class="gate-icon">🔐</div>
+            <h1>请输入卡密访问</h1>
+            <p class="gate-subtitle">请输入您的专属卡密以继续测试</p>
+            <div class="gate-input-group">
+                <input type="password" class="gate-input" id="gate-input"
+                    placeholder="请输入卡密" maxlength="20" autocomplete="off">
+                <button class="gate-submit" id="gate-submit">验证</button>
+            </div>
+            <div class="gate-error" id="gate-error">卡密错误，请重试</div>
         </div>
-
-        <div class="feature-grid">
-            <div class="feature-card">
-                <span class="feature-icon">📋</span>
-                <h3>40 道精选题目</h3>
-                <p>覆盖四维性格偏好，科学全面</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">⚡</span>
-                <h3>5-8 分钟完成</h3>
-                <p>轻量设计，随时随地进行</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">📊</span>
-                <h3>16 种完整分析</h3>
-                <p>优缺点 / 职业方向 / 人际关系全维度报告</p>
-            </div>
-        </div>
-
-        <div class="welcome-stats">
-            <div class="stat-item">
-                <div class="stat-number">16</div>
-                <div class="stat-label">性格类型</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">40</div>
-                <div class="stat-label">测试题目</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">在线测评</div>
-            </div>
-        </div>
-
-        <a href="test.html" class="start-btn">🚀 开始测试</a>
-
-        <p class="disclaimer">
-            ⚠️ 本测试仅供个人探索参考，不能替代专业心理评估。请根据真实感受作答，没有对错之分。
-        </p>
     </div>
 
+    <!-- ===== 主内容（验证后显示） ===== -->
+    <div id="main-content">
+        <div class="container">
+            <div class="welcome-hero">
+                <div class="welcome-icon">🧠</div>
+                <h1>探索你的性格密码</h1>
+                <p class="welcome-subtitle">
+                    MBTI（Myers-Briggs Type Indicator）是全球最广泛使用的性格分类工具之一。<br>
+                    这不是评判好坏，而是帮你发现自己的天赋与潜能。
+                </p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">📋</span>
+                    <h3>40 道精选题目</h3>
+                    <p>覆盖四维性格偏好，科学全面</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3>5-8 分钟完成</h3>
+                    <p>轻量设计，随时随地进行</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3>16 种完整分析</h3>
+                    <p>优缺点 / 职业方向 / 人际关系全维度报告</p>
+                </div>
+            </div>
+
+            <div class="welcome-stats">
+                <div class="stat-item">
+                    <div class="stat-number">16</div>
+                    <div class="stat-label">性格类型</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">40</div>
+                    <div class="stat-label">测试题目</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">在线测评</div>
+                </div>
+            </div>
+
+            <a href="test.html" class="start-btn">🚀 开始测试</a>
+
+            <p class="disclaimer">
+                ⚠️ 本测试仅供个人探索参考，不能替代专业心理评估。请根据真实感受作答，没有对错之分。
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // 门禁验证逻辑（内联，确保优先执行）
+        (function() {
+            var PASSCODE = 'stk347';
+            var VERIFIED_KEY = 'mbti_verified';
+
+            // 已通过验证 → 直接显示内容
+            if (sessionStorage.getItem(VERIFIED_KEY) === 'true') {
+                document.body.classList.add('gate-unlocked');
+                return;
+            }
+
+            // 未验证 → 显示门禁
+            var input = document.getElementById('gate-input');
+            var submit = document.getElementById('gate-submit');
+            var error = document.getElementById('gate-error');
+
+            function doVerify() {
+                if (input.value.trim() === PASSCODE) {
+                    sessionStorage.setItem(VERIFIED_KEY, 'true');
+                    document.body.classList.add('gate-unlocked');
+                } else {
+                    error.classList.add('visible');
+                    input.value = '';
+                    input.focus();
+                    setTimeout(function() { error.classList.remove('visible'); }, 2000);
+                }
+            }
+
+            submit.addEventListener('click', doVerify);
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') doVerify();
+            });
+
+            // 自动聚焦输入框
+            setTimeout(function() { input.focus(); }, 300);
+        })();
+    </script>
 </body>
 </html>

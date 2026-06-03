@@ -2,9 +2,15 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MBTI 测试结果</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        // 门禁检查
+        if (sessionStorage.getItem('mbti_verified') !== 'true') {
+            window.location.replace('index.html');
+        }
+    </script>
 </head>
 <body>
     <div class="container result-container">
