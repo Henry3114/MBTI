@@ -607,6 +607,16 @@ h4 { color: #555; font-size: 1.05em; font-weight: 600; margin-bottom: 8px; }
     .result-actions { gap: 12px; margin-top: 28px; }
     .button { padding: 13px 28px; font-size: 0.95em; }
     .disclaimer { font-size: 0.76em; margin-top: 28px; padding-top: 16px; }
+
+    /* 分享卡片 */
+    .share-card { max-width: 360px; }
+    .share-card-inner { padding: 28px 20px 20px; border-radius: 20px; }
+    .share-badge { font-size: 2.1em; padding: 10px 22px; letter-spacing: 4px; border-radius: 14px; }
+    .share-name { font-size: 1em; }
+    .share-dim-bar-wrap { height: 12px; }
+    .share-tagline { font-size: 0.78em; }
+
+    .btn-save { padding: 13px 28px; font-size: 0.95em; }
 }
 
 /* ==========================================
@@ -685,6 +695,165 @@ h4 { color: #555; font-size: 1.05em; font-weight: 600; margin-bottom: 8px; }
     .btn-orange { padding: 12px 24px; font-size: 0.9em; }
     .disclaimer { font-size: 0.72em; margin-top: 22px; padding-top: 14px; }
     .start-btn:hover, .button:hover { transform: none; }
+
+    /* 分享卡片 */
+    .share-card { max-width: 300px; }
+    .share-card-inner { padding: 22px 14px 16px; border-radius: 16px; border-width: 2px; }
+    .share-badge { font-size: 1.7em; padding: 8px 18px; letter-spacing: 3px; border-radius: 12px; }
+    .share-name { font-size: 0.9em; }
+    .share-dim-row { gap: 5px; margin-bottom: 8px; }
+    .share-dim-label { width: 20px; font-size: 0.75em; }
+    .share-dim-bar-wrap { height: 10px; border-radius: 5px; }
+    .share-dim-bar { border-radius: 5px; }
+    .share-tagline { font-size: 0.72em; padding: 8px 4px 4px; }
+    .share-watermark { font-size: 0.65em; margin-top: 10px; }
+    .btn-save { padding: 12px 24px; font-size: 0.9em; }
+}
+
+/* ==========================================
+   分享卡片（截图目标）
+   ========================================== */
+.share-card {
+    display: none; /* 默认隐藏，截图时显示 */
+    margin: 24px auto 0;
+    max-width: 420px;
+    width: 100%;
+}
+
+.share-card-inner {
+    background: linear-gradient(160deg, #fafbff 0%, #f0f2ff 100%);
+    border: 3px solid #667eea;
+    border-radius: 24px;
+    padding: 36px 28px 24px;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(102, 126, 234, 0.12);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 装饰性背景圆 */
+.share-card-inner::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(102,126,234,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.share-card-inner::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: -40px;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(118,75,162,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.share-header { margin-bottom: 20px; position: relative; z-index: 1; }
+
+.share-badge {
+    display: inline-block;
+    font-size: 2.8em;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #fff;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    padding: 14px 30px;
+    border-radius: 18px;
+    margin-bottom: 8px;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+}
+
+.share-name {
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #555;
+    margin-top: 6px;
+}
+
+.share-dims { margin: 18px 0 16px; position: relative; z-index: 1; }
+
+.share-dim-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.share-dim-label {
+    width: 24px;
+    font-size: 0.85em;
+    font-weight: 700;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.share-dim-label:first-child { color: #667eea; }
+.share-dim-label:last-child  { color: #764ba2; }
+
+.share-dim-bar-wrap {
+    flex: 1;
+    height: 14px;
+    background: #e0e0e0;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.share-dim-bar {
+    height: 100%;
+    border-radius: 7px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.6s ease;
+}
+
+.share-tagline {
+    font-size: 0.85em;
+    color: #777;
+    line-height: 1.7;
+    padding: 12px 8px 8px;
+    border-top: 1px dashed #d5d8f0;
+    margin-top: 6px;
+    position: relative;
+    z-index: 1;
+}
+
+.share-watermark {
+    font-size: 0.7em;
+    color: #bbb;
+    margin-top: 14px;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== 保存按钮 ===== */
+.btn-save {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.35);
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(39, 174, 96, 0.45);
+}
+
+.btn-save:active { transform: translateY(0); }
+.btn-save:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* ==========================================
@@ -705,4 +874,12 @@ h4 { color: #555; font-size: 1.05em; font-weight: 600; margin-bottom: 8px; }
     h1 { font-size: 1.2em; }
     .section { padding: 14px 10px; }
     .button { padding: 11px 20px; font-size: 0.85em; }
+
+    /* 分享卡片 */
+    .share-card { max-width: 260px; }
+    .share-card-inner { padding: 18px 10px 12px; border-radius: 14px; }
+    .share-badge { font-size: 1.4em; padding: 6px 14px; letter-spacing: 2px; border-radius: 10px; }
+    .share-name { font-size: 0.82em; }
+    .share-dim-bar-wrap { height: 8px; }
+    .share-tagline { font-size: 0.68em; }
 }

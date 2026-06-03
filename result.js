@@ -148,4 +148,58 @@ document.addEventListener('DOMContentLoaded', function() {
     html += '</div>';
 
     resultDiv.innerHTML = html;
+
+    // ===== 填充分享卡片 =====
+    document.getElementById('share-badge').textContent = mbtiType;
+    document.getElementById('share-name').textContent = desc.name;
+    document.getElementById('share-tagline').textContent = desc.basic_features;
+
+    var shareDims = document.getElementById('share-dims');
+    var dimsHtml = '';
+    for (var d = 0; d < dims.length; d++) {
+        var dim = dims[d];
+        var lp = pct(dim.a, dim.b);
+        var rp = 100 - lp;
+        dimsHtml += '<div class="share-dim-row">';
+        dimsHtml += '  <span class="share-dim-label">' + dim.left.charAt(0) + '</span>';
+        dimsHtml += '  <span class="share-dim-bar-wrap"><span class="share-dim-bar" style="width:' + lp + '%;"></span></span>';
+        dimsHtml += '  <span class="share-dim-label">' + dim.right.charAt(0) + '</span>';
+        dimsHtml += '</div>';
+    }
+    shareDims.innerHTML = dimsHtml;
 });
+
+// ===== 一键保存为图片 =====
+function saveAsImage() {
+    var btn = document.getElementById('btn-save-img');
+    var card = document.getElementById('share-card');
+
+    // 显示卡片以便截图
+    card.style.display = 'block';
+    btn.textContent = '⏳ 生成中...';
+    btn.disabled = true;
+
+    html2canvas(card, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+        logging: false
+    }).then(function(canvas) {
+        // 隐藏回卡片
+        card.style.display = 'none';
+        btn.textContent = '📸 保存为图片';
+        btn.disabled = false;
+
+        // 触发下载
+        var link = document.createElement('a');
+        link.download = 'MBTI测试结果_' + (document.getElementById('share-badge').textContent || 'result') + '.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }).catch(function(err) {
+        card.style.display = 'none';
+        btn.textContent = '📸 保存为图片';
+        btn.disabled = false;
+        alert('图片生成失败，请重试');
+        console.error('html2canvas error:', err);
+    });
+}
