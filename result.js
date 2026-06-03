@@ -183,26 +183,43 @@ function saveAsImage() {
     btn.textContent = '⏳ 生成中...';
     btn.disabled = true;
 
-    // 卡片使用 position:fixed; left:-9999px（屏幕外但已渲染），html2canvas 可直接捕获
-    html2canvas(card, {
+    // 关键修复：克隆卡片到可见区域，html2canvas 才能可靠渲染屏幕外元素
+    // 浏览器会跳过离视口太远（-9999px）元素的渲染管线
+    var clone = card.cloneNode(true);
+    clone.style.position = 'absolute';
+    clone.style.left = '0';
+    clone.style.top = '0';
+    clone.style.zIndex = '999999';
+    document.body.appendChild(clone);
+
+    html2canvas(clone, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#fafbff',
-        logging: false
+        logging: true
     }).then(function(canvas) {
+        // 截图完成，移除克隆
+        document.body.removeChild(clone);
+
         btn.textContent = '📸 保存为图片';
         btn.disabled = false;
 
         // 触发下载
+        var mbtiType = document.getElementById('share-badge').textContent || 'result';
         var link = document.createElement('a');
-        link.download = 'MBTI测试结果_' + (document.getElementById('share-badge').textContent || 'result') + '.png';
+        link.download = 'MBTI测试结果_' + mbtiType + '.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
     }).catch(function(err) {
+        // 出错也要清理克隆元素
+        if (clone.parentNode) {
+            document.body.removeChild(clone);
+        }
+
         btn.textContent = '📸 保存为图片';
         btn.disabled = false;
         console.error('html2canvas error:', err);
-        alert('图片生成失败，请重试。\n错误: ' + (err.message || '未知错误'));
+        alert('图片生成失败，请重试。\n\n技术详情（可截图发给客服）:\n' + (err.message || '未知错误'));
     });
 }
