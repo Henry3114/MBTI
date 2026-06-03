@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI 测试答题</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 id="test-title">MBTI 测试问卷</h1>
+        <p class="progress" id="progress-display">已完成 0 / 40 题</p>
+
+        <form id="mbti-form">
+            <div id="question-area">
+                <!-- 题目内容由 JS 渲染 -->
+            </div>
+
+            <div class="navigation-buttons">
+                <button type="button" id="prev-button" class="button" style="display: none;">上一题</button>
+                <button type="button" id="next-button" class="button">下一题</button>
+                <button type="submit" id="submit-button" class="button submit-button" style="display: none;">查看结果</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
